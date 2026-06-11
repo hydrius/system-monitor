@@ -1,0 +1,14 @@
+[Unit]
+Description=SysStats collector
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/sysstats
+ExecStart=/opt/sysstats/venv/bin/python collector.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
