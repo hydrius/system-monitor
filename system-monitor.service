@@ -1,12 +1,12 @@
 [Unit]
-Description=SysStats collector
+Description=System Monitor
 After=network.target postgresql.service
 
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/opt/sysstats
-ExecStart=/opt/sysstats/venv/bin/python collector.py
+WorkingDirectory=/srv/system-monitor
+ExecStart=/srv/system-monitor/.venv/bin/python collector.py
 Restart=on-failure
 RestartSec=5
 

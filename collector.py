@@ -41,7 +41,7 @@ except ImportError:
 
 # ── Config from environment ────────────────────────────────────────────────────
 DB_CONFIG = {
-    "host":     os.getenv("DB_HOST",     "localhost"),
+    "host":     os.getenv("DB_HOST",     "192.168.50.77"),
     "port":     int(os.getenv("DB_PORT", "5432")),
     "dbname":   os.getenv("DB_NAME",     "sysstats"),
     "user":     os.getenv("DB_USER",     "sysstats"),
@@ -182,6 +182,8 @@ def main():
                         disk_io_after = psutil.disk_io_counters(perdisk=True)
                         disk_elapsed  = (time.monotonic() - last_disk_time) if last_disk_time else elapsed
                         partitions    = psutil.disk_partitions(all=False)
+                        # remove partitions that are snap
+                        partitions = [p for p in partitions if not p.device.startswith("/snap")]
                         insert_disk(cur, now, partitions, disk_io_before, disk_io_after, disk_elapsed)
                         disk_io_before = disk_io_after
                         last_disk_time = time.monotonic()
